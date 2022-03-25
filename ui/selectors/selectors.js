@@ -1043,7 +1043,9 @@ export function getIsMultiLayerFeeNetwork(state) {
  * @returns Boolean
  */
 export function getAdvancedGasFeeValues(state) {
-  return state.metamask.advancedGasFee;
+  const chainId = getCurrentChainId(state);
+
+  return state.metamask.advancedGasFee[chainId];
 }
 
 export function getEIP1559V2Enabled(state) {
@@ -1058,8 +1060,11 @@ export function getEIP1559V2Enabled(state) {
  */
 export function getIsAdvancedGasFeeDefault(state) {
   const { advancedGasFee } = state.metamask;
+  const chainId = getCurrentChainId(state);
+
   return (
-    Boolean(advancedGasFee?.maxBaseFee) && Boolean(advancedGasFee?.priorityFee)
+    Boolean(advancedGasFee[chainId]?.maxBaseFee) &&
+    Boolean(advancedGasFee[chainId]?.priorityFee)
   );
 }
 
