@@ -464,10 +464,9 @@ export default class Home extends PureComponent {
             acceptText={t('restore')}
             ignoreText={t('noThanks')}
             infoText={t('dataBackupFoundInfo')}
-            onAccept={() => {
-              restoreFromThreeBox(selectedAddress).then(() => {
-                turnThreeBoxSyncingOn();
-              });
+            onAccept={async () => {
+              await restoreFromThreeBox(selectedAddress);
+              turnThreeBoxSyncingOn();
             }}
             onIgnore={() => {
               setShowRestorePromptToFalse();
