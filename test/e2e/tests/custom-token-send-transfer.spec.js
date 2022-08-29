@@ -4,8 +4,10 @@ const {
   withFixtures,
   getWindowHandles,
 } = require('../helpers');
+const { SMART_CONTRACTS } = require('../seeder/smart-contracts');
 
 describe('Send token from inside MetaMask', function () {
+  const smartContract = SMART_CONTRACTS.HST;
   const ganacheOptions = {
     accounts: [
       {
@@ -21,41 +23,43 @@ describe('Send token from inside MetaMask', function () {
         dapp: true,
         fixtures: 'connected-state',
         ganacheOptions,
+        smartContract,
         title: this.test.title,
         failOnConsoleError: false,
       },
-      async ({ driver }) => {
+      async ({ driver, contractRegistry }) => {
+        const contractAddress = await contractRegistry.getContractAddress(
+          smartContract,
+        );
         await driver.navigate();
         await driver.fill('#password', 'correct horse battery staple');
         await driver.press('#password', driver.Key.ENTER);
 
         // create token
-        await driver.openNewPage(`http://127.0.0.1:8080/`);
-        await driver.waitForSelector({ text: 'Create Token', tag: 'button' });
-        await driver.clickElement({ text: 'Create Token', tag: 'button' });
+        await driver.openNewPage(
+          `http://127.0.0.1:8080/?contract=${contractAddress}`,
+        );
 
-        let windowHandles = await getWindowHandles(driver, 3);
-        await driver.switchToWindow(windowHandles.popup);
-
-        await driver.clickElement({ text: 'Confirm', tag: 'button' });
-
-        await driver.switchToWindow(windowHandles.dapp);
-
-        await driver.waitForSelector({
-          css: '#tokenAddress',
-          text: '0x',
-        });
+        let windowHandles = await driver.getAllWindowHandles();
+        const extension = windowHandles[0];
 
         await driver.clickElement({
           text: 'Add Token to Wallet',
           tag: 'button',
         });
 
-        windowHandles = await getWindowHandles(driver, 3);
-        await driver.switchToWindow(windowHandles.popup);
-        await driver.clickElement({ text: 'Add Token', tag: 'button' });
+        await driver.waitUntilXWindowHandles(3);
+        windowHandles = await driver.getAllWindowHandles();
 
-        await driver.switchToWindow(windowHandles.extension);
+        await driver.switchToWindowWithTitle(
+          'MetaMask Notification',
+          windowHandles,
+        );
+
+        await driver.clickElement({ text: 'Add token', tag: 'button' });
+
+        await driver.waitUntilXWindowHandles(2);
+        await driver.switchToWindow(extension);
 
         const asset = await driver.waitForSelector({
           css: '.list-item',
@@ -78,10 +82,10 @@ describe('Send token from inside MetaMask', function () {
         );
         await driver.clickElement('[data-testid="page-container-footer-next"]');
 
-        const estimatedGasFee = await driver.waitForSelector({
-          css: '.currency-display-component__text',
-          text: '0.000154',
-        });
+        const estimatedGasFee = await driver.waitForSelector(
+          '.currency-display-component__text',
+        );
+
         assert.notEqual(
           await estimatedGasFee.getText(),
           '0',
@@ -132,8 +136,7 @@ describe('Send token from inside MetaMask', function () {
         await driver.clickElement({ text: 'Confirm', tag: 'button' });
         await driver.waitForSelector(
           {
-            css:
-              '.transaction-list__completed-transactions .transaction-list-item__primary-currency',
+            css: '.transaction-list__completed-transactions .transaction-list-item__primary-currency',
             text: '-1 TST',
           },
           { timeout: 10000 },
@@ -153,6 +156,7 @@ describe('Send token from inside MetaMask', function () {
 });
 
 describe('Send a custom token from dapp', function () {
+  const smartContract = SMART_CONTRACTS.HST;
   const ganacheOptions = {
     accounts: [
       {
@@ -168,50 +172,55 @@ describe('Send a custom token from dapp', function () {
         dapp: true,
         fixtures: 'connected-state',
         ganacheOptions,
+        smartContract,
         title: this.test.title,
+        failOnConsoleError: false,
       },
-      async ({ driver }) => {
+      async ({ driver, contractRegistry }) => {
+        const contractAddress = await contractRegistry.getContractAddress(
+          smartContract,
+        );
         await driver.navigate();
         await driver.fill('#password', 'correct horse battery staple');
         await driver.press('#password', driver.Key.ENTER);
 
         // create token
-        await driver.openNewPage(`http://127.0.0.1:8080/`);
-        await driver.waitForSelector({ text: 'Create Token', tag: 'button' });
-        await driver.clickElement({ text: 'Create Token', tag: 'button' });
+        await driver.openNewPage(
+          `http://127.0.0.1:8080/?contract=${contractAddress}`,
+        );
 
-        let windowHandles = await getWindowHandles(driver, 3);
-        await driver.switchToWindow(windowHandles.popup);
-
-        await driver.clickElement({ text: 'Confirm', tag: 'button' });
-
-        await driver.switchToWindow(windowHandles.dapp);
-
-        await driver.waitForSelector({
-          css: '#tokenAddress',
-          text: '0x',
-        });
+        let windowHandles = await driver.getAllWindowHandles();
+        const extension = windowHandles[0];
 
         await driver.clickElement({
           text: 'Add Token to Wallet',
           tag: 'button',
         });
 
-        windowHandles = await getWindowHandles(driver, 3);
-        await driver.switchToWindow(windowHandles.popup);
-        await driver.clickElement({ text: 'Add Token', tag: 'button' });
+        await driver.waitUntilXWindowHandles(3);
+        windowHandles = await driver.getAllWindowHandles();
+        await driver.switchToWindowWithTitle(
+          'MetaMask Notification',
+          windowHandles,
+        );
+
+        await driver.clickElement({ text: 'Add token', tag: 'button' });
 
         windowHandles = await getWindowHandles(driver, 2);
-        await driver.switchToWindow(windowHandles.dapp);
 
         await driver.clickElement({ text: 'Transfer Tokens', tag: 'button' });
-        windowHandles = await getWindowHandles(driver, 3);
-        await driver.switchToWindow(windowHandles.popup);
+        await driver.waitUntilXWindowHandles(3);
+        windowHandles = await driver.getAllWindowHandles();
+
+        await driver.switchToWindowWithTitle(
+          'MetaMask Notification',
+          windowHandles,
+        );
 
         await driver.waitForSelector({ text: '1.5 TST', tag: 'h1' });
         await driver.clickElement({ text: 'Confirm', tag: 'button' });
 
-        await driver.switchToWindow(windowHandles.extension);
+        await driver.switchToWindow(extension);
 
         await driver.clickElement({ tag: 'button', text: 'Activity' });
         await driver.findElements('.transaction-list__pending-transactions');
@@ -243,46 +252,50 @@ describe('Send a custom token from dapp', function () {
         dapp: true,
         fixtures: 'connected-state',
         ganacheOptions,
+        smartContract,
         title: this.test.title,
+        failOnConsoleError: false,
       },
-      async ({ driver }) => {
+      async ({ driver, contractRegistry }) => {
+        const contractAddress = await contractRegistry.getContractAddress(
+          smartContract,
+        );
         await driver.navigate();
         await driver.fill('#password', 'correct horse battery staple');
         await driver.press('#password', driver.Key.ENTER);
 
         // create token
-        await driver.openNewPage(`http://127.0.0.1:8080/`);
-        await driver.waitForSelector({ text: 'Create Token', tag: 'button' });
-        await driver.clickElement({ text: 'Create Token', tag: 'button' });
+        await driver.openNewPage(
+          `http://127.0.0.1:8080/?contract=${contractAddress}`,
+        );
 
-        let windowHandles = await getWindowHandles(driver, 3);
-        await driver.switchToWindow(windowHandles.popup);
-
-        await driver.clickElement({ text: 'Confirm', tag: 'button' });
-
-        await driver.switchToWindow(windowHandles.dapp);
-
-        await driver.waitForSelector({
-          css: '#tokenAddress',
-          text: '0x',
-        });
+        let windowHandles = await driver.getAllWindowHandles();
+        const extension = windowHandles[0];
 
         await driver.clickElement({
           text: 'Add Token to Wallet',
           tag: 'button',
         });
 
-        windowHandles = await getWindowHandles(driver, 3);
-        await driver.switchToWindow(windowHandles.popup);
-        await driver.clickElement({ text: 'Add Token', tag: 'button' });
+        await driver.waitUntilXWindowHandles(3);
+        windowHandles = await driver.getAllWindowHandles();
 
-        await driver.switchToWindow(windowHandles.dapp);
+        await driver.switchToWindowWithTitle(
+          'MetaMask Notification',
+          windowHandles,
+        );
+        await driver.clickElement({ text: 'Add token', tag: 'button' });
 
+        windowHandles = await getWindowHandles(driver, 2);
         await driver.clickElement({ text: 'Transfer Tokens', tag: 'button' });
 
-        windowHandles = await getWindowHandles(driver, 3);
-        await driver.switchToWindow(windowHandles.popup);
+        await driver.waitUntilXWindowHandles(3);
+        windowHandles = await driver.getAllWindowHandles();
 
+        await driver.switchToWindowWithTitle(
+          'MetaMask Notification',
+          windowHandles,
+        );
         await driver.waitForSelector({ text: '1.5 TST', tag: 'h1' });
         await driver.clickElement({ text: 'Edit', tag: 'button' });
 
@@ -313,12 +326,11 @@ describe('Send a custom token from dapp', function () {
 
         await driver.clickElement({ text: 'Confirm', tag: 'button' });
 
-        await driver.switchToWindow(windowHandles.extension);
+        await driver.switchToWindow(extension);
 
         await driver.clickElement({ tag: 'button', text: 'Activity' });
         await driver.waitForSelector({
-          css:
-            '.transaction-list__completed-transactions .transaction-list-item__primary-currency',
+          css: '.transaction-list__completed-transactions .transaction-list-item__primary-currency',
           text: '-1.5 TST',
         });
 
@@ -340,6 +352,7 @@ describe('Send a custom token from dapp', function () {
 });
 
 describe('Transfers a custom token from dapp when no gas value is specified', function () {
+  const smartContract = SMART_CONTRACTS.HST;
   const ganacheOptions = {
     accounts: [
       {
@@ -355,55 +368,61 @@ describe('Transfers a custom token from dapp when no gas value is specified', fu
         dapp: true,
         fixtures: 'connected-state',
         ganacheOptions,
+        smartContract,
         title: this.test.title,
+        failOnConsoleError: false,
       },
-      async ({ driver }) => {
+      async ({ driver, contractRegistry }) => {
+        const contractAddress = await contractRegistry.getContractAddress(
+          smartContract,
+        );
         await driver.navigate();
         await driver.fill('#password', 'correct horse battery staple');
         await driver.press('#password', driver.Key.ENTER);
 
         // create token
-        await driver.openNewPage(`http://127.0.0.1:8080/`);
-        await driver.waitForSelector({ text: 'Create Token', tag: 'button' });
-        await driver.clickElement({ text: 'Create Token', tag: 'button' });
+        await driver.openNewPage(
+          `http://127.0.0.1:8080/?contract=${contractAddress}`,
+        );
 
-        let windowHandles = await getWindowHandles(driver, 3);
-        await driver.switchToWindow(windowHandles.popup);
-
-        await driver.clickElement({ text: 'Confirm', tag: 'button' });
-
-        await driver.switchToWindow(windowHandles.dapp);
-
-        await driver.waitForSelector({
-          css: '#tokenAddress',
-          text: '0x',
-        });
+        let windowHandles = await driver.getAllWindowHandles();
+        const extension = windowHandles[0];
 
         await driver.clickElement({
           text: 'Add Token to Wallet',
           tag: 'button',
         });
 
-        windowHandles = await getWindowHandles(driver, 3);
-        await driver.switchToWindow(windowHandles.popup);
-        await driver.clickElement({ text: 'Add Token', tag: 'button' });
+        await driver.waitUntilXWindowHandles(3);
+        windowHandles = await driver.getAllWindowHandles();
 
-        await driver.switchToWindow(windowHandles.dapp);
+        await driver.switchToWindowWithTitle(
+          'MetaMask Notification',
+          windowHandles,
+        );
+        await driver.clickElement({ text: 'Add token', tag: 'button' });
+
+        windowHandles = await getWindowHandles(driver, 2);
 
         await driver.clickElement({
           text: 'Transfer Tokens Without Gas',
           tag: 'button',
         });
 
-        windowHandles = await getWindowHandles(driver, 3);
-        await driver.switchToWindow(windowHandles.popup);
+        await driver.waitUntilXWindowHandles(3);
+        windowHandles = await driver.getAllWindowHandles();
+
+        await driver.switchToWindowWithTitle(
+          'MetaMask Notification',
+          windowHandles,
+        );
         await driver.waitForSelector({
           tag: 'h1',
           text: '1.5 TST',
         });
         await driver.waitForSelector({ text: 'Confirm', tag: 'button' });
         await driver.clickElement({ text: 'Confirm', tag: 'button' });
-        await driver.switchToWindow(windowHandles.extension);
+        await driver.switchToWindow(extension);
         await driver.clickElement({ tag: 'button', text: 'Activity' });
         await driver.wait(async () => {
           const pendingTxes = await driver.findElements(
@@ -420,14 +439,12 @@ describe('Transfers a custom token from dapp when no gas value is specified', fu
         const transactionTxt = await driver.waitForSelector({
           // Select the heading of the first transaction list item in the
           // completed transaction list with text matching Send TST
-          css:
-            '.transaction-list__completed-transactions .transaction-list-item:first-child .list-item__heading',
+          css: '.transaction-list__completed-transactions .transaction-list-item:first-child .list-item__heading',
           text: 'Send TST',
         });
 
         await driver.waitForSelector({
-          css:
-            '.transaction-list__completed-transactions .transaction-list-item:first-child .transaction-list-item__primary-currency',
+          css: '.transaction-list__completed-transactions .transaction-list-item:first-child .transaction-list-item__primary-currency',
           text: '-1.5 TST',
         });
 
