@@ -6,9 +6,11 @@ const {
   withFixtures,
   getWindowHandles,
 } = require('../helpers');
+const { SMART_CONTRACTS } = require('../seeder/smart-contracts');
 
-describe.skip('Create token, approve token and approve token without gas', function () {
+describe('Create token, approve token and approve token without gas', function () {
   describe('Add a custom token from a dapp', function () {
+    const smartContract = SMART_CONTRACTS.HST;
     const ganacheOptions = {
       accounts: [
         {
@@ -25,9 +27,14 @@ describe.skip('Create token, approve token and approve token without gas', funct
           dapp: true,
           fixtures: 'connected-state',
           ganacheOptions,
+          smartContract,
+          failOnConsoleError: false,
           title: this.test.title,
         },
-        async ({ driver }) => {
+        async ({ driver, contractRegistry }) => {
+          const contractAddress = await contractRegistry.getContractAddress(
+            smartContract,
+          );
           await driver.navigate();
           await driver.fill('#password', 'correct horse battery staple');
           await driver.press('#password', driver.Key.ENTER);
@@ -37,8 +44,17 @@ describe.skip('Create token, approve token and approve token without gas', funct
           await driver.waitForSelector({ text: 'Create Token', tag: 'button' });
           await driver.clickElement({ text: 'Create Token', tag: 'button' });
 
-          const windowHandles = await getWindowHandles(driver, 3);
-          await driver.switchToWindow(windowHandles.popup);
+          let windowHandles = await driver.getAllWindowHandles();
+          const extension = windowHandles[0];
+
+          await driver.waitUntilXWindowHandles(3);
+        windowHandles = await driver.getAllWindowHandles();
+
+        // switch to popup 
+        await driver.switchToWindowWithTitle(
+          'MetaMask Notification',
+          windowHandles,
+        );
           await driver.clickElement({ text: 'Edit', tag: 'button' });
           const inputs = await driver.findElements('input[type="number"]');
           const gasLimitInput = inputs[0];
@@ -49,7 +65,9 @@ describe.skip('Create token, approve token and approve token without gas', funct
           await driver.clickElement({ text: 'Save', tag: 'button' });
           await driver.clickElement({ text: 'Confirm', tag: 'button' });
 
-          await driver.switchToWindow(windowHandles.dapp);
+          //await driver.switchToWindow(windowHandles.dapp);
+
+          windowHandles = await getWindowHandles(driver, 2);
 
           const tokenContractAddress = await driver.waitForSelector({
             css: '#tokenAddress',
@@ -58,7 +76,7 @@ describe.skip('Create token, approve token and approve token without gas', funct
           const tokenAddress = await tokenContractAddress.getText();
 
           // imports custom token from extension
-          await driver.switchToWindow(windowHandles.extension);
+          await driver.switchToWindow(extension);
           await driver.clickElement(`[data-testid="home__asset-tab"]`);
           await driver.clickElement({ tag: 'button', text: 'Assets' });
 
@@ -100,7 +118,7 @@ describe.skip('Create token, approve token and approve token without gas', funct
 
   describe('Approves a custom token from dapp', function () {
     let windowHandles;
-
+    const smartContract = SMART_CONTRACTS.HST;
     const ganacheOptions = {
       accounts: [
         {
@@ -116,39 +134,51 @@ describe.skip('Create token, approve token and approve token without gas', funct
           dapp: true,
           fixtures: 'connected-state',
           ganacheOptions,
+          smartContract,
+          failOnConsoleError: false,
           title: this.test.title,
         },
-        async ({ driver }) => {
+        async ({ driver, contractRegistry }) => {
+          const contractAddress = await contractRegistry.getContractAddress(
+            smartContract,
+          );
           await driver.navigate();
           await driver.fill('#password', 'correct horse battery staple');
           await driver.press('#password', driver.Key.ENTER);
 
-          await driver.openNewPage(`http://127.0.0.1:8080/`);
+          // create token
+          await driver.openNewPage(
+            `http://127.0.0.1:8080/?contract=${contractAddress}`,
+          );
+  
+          let windowHandles = await driver.getAllWindowHandles();
+          const extension = windowHandles[0];
 
-          await driver.waitForSelector({ text: 'Create Token', tag: 'button' });
-          await driver.clickElement({ text: 'Create Token', tag: 'button' });
-          windowHandles = await getWindowHandles(driver, 3);
-          await driver.switchToWindow(windowHandles.popup);
-          await driver.clickElement({ text: 'Confirm', tag: 'button' });
-          await driver.switchToWindow(windowHandles.dapp);
+          await driver.findClickableElement('#deployButton');
+          //approve token from dapp
           await driver.waitForSelector({
             text: 'Approve Tokens',
             tag: 'button',
           });
           await driver.clickElement({ text: 'Approve Tokens', tag: 'button' });
 
-          // displays the token approval data
-          // switch to popup
-          windowHandles = await getWindowHandles(driver, 3);
-          await driver.switchToWindow(windowHandles.popup);
+        await driver.waitUntilXWindowHandles(3);
+        windowHandles = await driver.getAllWindowHandles();
+        await driver.switchToWindowWithTitle(
+          'MetaMask Notification',
+          windowHandles,
+        );
 
+        //checks elements on approve token popup
           const functionType = await driver.findElement(
             '.confirm-approve-content__data .confirm-approve-content__small-text',
           );
 
           await driver.scrollToElement(functionType);
+
           const functionTypeText = await functionType.getText();
           assert.equal(functionTypeText, 'Function: Approve');
+
           const confirmDataDiv = await driver.findElement(
             '.confirm-approve-content__data__data-block',
           );
@@ -159,21 +189,23 @@ describe.skip('Create token, approve token and approve token without gas', funct
             ),
           );
           await driver.clickElement({ text: 'Confirm', tag: 'button' });
-          await driver.switchToWindow(windowHandles.extension);
+          await driver.switchToWindow(extension);
           await driver.clickElement({ tag: 'button', text: 'Activity' });
 
+          //check list of pending transactions in extension
           await driver.wait(async () => {
             const pendingTxes = await driver.findElements(
               '.transaction-list-item',
             );
-            return pendingTxes.length === 2;
+            return pendingTxes.length === 1;
           }, 10000);
 
-          await driver.waitForSelector({
+          const approveTokenTask = await driver.waitForSelector({
             // Selects only the very first transaction list item immediately following the 'Pending' header
-            css: '.transaction-list__pending-transactions .transaction-list__header + .transaction-list-item .list-item__heading',
+            css: '.transaction-list__completed-transactions .transaction-list-item:first-child .list-item__heading',
             text: 'Approve Token spend limit',
           });
+          assert.equal(await approveTokenTask.getText(), 'Approve Token spend limit');
         },
       );
     });
@@ -184,33 +216,43 @@ describe.skip('Create token, approve token and approve token without gas', funct
           dapp: true,
           fixtures: 'connected-state',
           ganacheOptions,
+          smartContract,
+          failOnConsoleError: false,
           title: this.test.title,
         },
-        async ({ driver }) => {
+        async ({ driver, contractRegistry }) => {
+          const contractAddress = await contractRegistry.getContractAddress(
+            smartContract,
+          );
           await driver.navigate();
           await driver.fill('#password', 'correct horse battery staple');
           await driver.press('#password', driver.Key.ENTER);
 
-          await driver.openNewPage(`http://127.0.0.1:8080/`);
+          //create token
+          await driver.openNewPage(
+            `http://127.0.0.1:8080/?contract=${contractAddress}`,
+          );
 
-          await driver.waitForSelector({ text: 'Create Token', tag: 'button' });
-          await driver.clickElement({ text: 'Create Token', tag: 'button' });
-          windowHandles = await getWindowHandles(driver, 3);
-          await driver.switchToWindow(windowHandles.popup);
-          await driver.clickElement({ text: 'Confirm', tag: 'button' });
+          let windowHandles = await driver.getAllWindowHandles();
+          const extension = windowHandles[0];
 
-          await driver.switchToWindow(windowHandles.dapp);
-
+          await driver.findClickableElement('#deployButton');
+          
+          //approve token from dapp
           await driver.waitForSelector({
             text: 'Approve Tokens',
             tag: 'button',
           });
           await driver.clickElement({ text: 'Approve Tokens', tag: 'button' });
 
-          // switch to popup
-          windowHandles = await getWindowHandles(driver, 3);
-          await driver.switchToWindow(windowHandles.popup);
+          await driver.waitUntilXWindowHandles(3);
+          windowHandles = await driver.getAllWindowHandles();
+          await driver.switchToWindowWithTitle(
+            'MetaMask Notification',
+            windowHandles,
+          );
 
+          //check elements on approve token popup
           await driver.clickElement(
             '.confirm-approve-content__small-blue-text',
           );
@@ -263,13 +305,15 @@ describe.skip('Create token, approve token and approve token without gas', funct
           await driver.clickElement({ text: 'Confirm', tag: 'button' });
 
           // finds the transaction in transaction list
-          await driver.switchToWindow(windowHandles.extension);
+          await driver.switchToWindow(extension);
           await driver.clickElement({ tag: 'button', text: 'Activity' });
-          await driver.waitForSelector({
+          const approveTokenTask = await driver.waitForSelector({
             // Select only the heading of the first entry in the transaction list.
             css: '.transaction-list__completed-transactions .transaction-list-item:first-child .list-item__heading',
             text: 'Approve Token spend limit',
           });
+          assert.equal(await approveTokenTask.getText(), 'Approve Token spend limit');
+
         },
       );
     });
@@ -277,7 +321,7 @@ describe.skip('Create token, approve token and approve token without gas', funct
 
   describe('Approves a custom token from dapp when no gas value is specified', function () {
     let windowHandles;
-
+    const smartContract = SMART_CONTRACTS.HST;
     const ganacheOptions = {
       accounts: [
         {
@@ -294,31 +338,33 @@ describe.skip('Create token, approve token and approve token without gas', funct
           dapp: true,
           fixtures: 'connected-state',
           ganacheOptions,
+          smartContract,
+          failOnConsoleError: false,
           title: this.test.title,
         },
-        async ({ driver }) => {
+        async ({ driver, contractRegistry }) => {
+          const contractAddress = await contractRegistry.getContractAddress(
+            smartContract,
+          );
           await driver.navigate();
           await driver.fill('#password', 'correct horse battery staple');
           await driver.press('#password', driver.Key.ENTER);
 
-          await driver.openNewPage(`http://127.0.0.1:8080/`);
-
-          await driver.waitForSelector({ text: 'Create Token', tag: 'button' });
-          await driver.clickElement({ text: 'Create Token', tag: 'button' });
-          windowHandles = await getWindowHandles(driver, 3);
-          await driver.switchToWindow(windowHandles.popup);
-          await driver.clickElement({ text: 'Confirm', tag: 'button' });
-
-          await driver.switchToWindow(windowHandles.dapp);
+          await driver.openNewPage(
+            `http://127.0.0.1:8080/?contract=${contractAddress}`,
+          );
+          let windowHandles = await driver.getAllWindowHandles();
+          const extension = windowHandles[0];
 
           await driver.clickElement({
             text: 'Approve Tokens Without Gas',
             tag: 'button',
           });
 
-          await driver.switchToWindow(windowHandles.extension);
+          await driver.switchToWindow(extension);
           await driver.clickElement({ tag: 'button', text: 'Activity' });
 
+          //check pending transaction in extension
           await driver.wait(async () => {
             const pendingTxes = await driver.findElements(
               '.transaction-list__pending-transactions .transaction-list-item',
@@ -332,6 +378,7 @@ describe.skip('Create token, approve token and approve token without gas', funct
             text: 'Approve Token spend limit',
           });
 
+          //click on pending transaction and check elements
           await driver.clickElement('.transaction-list-item');
 
           const permissionInfo = await driver.findElements(
