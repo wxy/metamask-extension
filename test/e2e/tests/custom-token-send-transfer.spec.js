@@ -43,6 +43,8 @@ describe('Send token from inside MetaMask', function () {
         let windowHandles = await driver.getAllWindowHandles();
         const extension = windowHandles[0];
 
+        await driver.findClickableElement('#deployButton');
+
         await driver.clickElement({
           text: 'Add Token to Wallet',
           tag: 'button',
@@ -200,6 +202,8 @@ describe('Send a custom token from dapp', function () {
         let windowHandles = await driver.getAllWindowHandles();
         const extension = windowHandles[0];
 
+        await driver.findClickableElement('#deployButton');
+
         await driver.clickElement({
           text: 'Add Token to Wallet',
           tag: 'button',
@@ -282,6 +286,8 @@ describe('Send a custom token from dapp', function () {
 
         let windowHandles = await driver.getAllWindowHandles();
         const extension = windowHandles[0];
+
+        await driver.findClickableElement('#deployButton');
 
         // add token from dapp
         await driver.clickElement({
@@ -403,6 +409,8 @@ describe('Transfers a custom token from dapp when no gas value is specified', fu
 
         let windowHandles = await driver.getAllWindowHandles();
         const extension = windowHandles[0];
+
+        await driver.findClickableElement('#deployButton');
 
         // add token from dapp
         await driver.clickElement({
