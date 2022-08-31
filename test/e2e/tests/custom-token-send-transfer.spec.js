@@ -132,7 +132,6 @@ describe('Send token from inside MetaMask', function () {
           ),
         );
         // clicks on Details tab and Edit button (editing priority)
-        await driver.delay(50000);
         await driver.clickElement({ text: 'Details', tag: 'button' });
         await driver.clickElement({ text: 'Edit', tag: 'button' });
         const inputs = await driver.findElements('input[type="number"]');
