@@ -62,8 +62,6 @@ describe('Create token, approve token and approve token without gas', function (
           await driver.clickElement({ text: 'Save', tag: 'button' });
           await driver.clickElement({ text: 'Confirm', tag: 'button' });
 
-          // await driver.switchToWindow(windowHandles.dapp);
-
           windowHandles = await getWindowHandles(driver, 2);
 
           const tokenContractAddress = await driver.waitForSelector({
@@ -353,13 +351,29 @@ describe('Create token, approve token and approve token without gas', function (
           await driver.openNewPage(
             `http://127.0.0.1:8080/?contract=${contractAddress}`,
           );
-          const windowHandles = await driver.getAllWindowHandles();
+          let windowHandles = await driver.getAllWindowHandles();
           const extension = windowHandles[0];
 
+          await driver.findClickableElement('#deployButton');
           await driver.clickElement({
             text: 'Approve Tokens Without Gas',
             tag: 'button',
           });
+
+          await driver.waitUntilXWindowHandles(3);
+          windowHandles = await driver.getAllWindowHandles();
+          await driver.switchToWindowWithTitle(
+            'MetaMask Notification',
+            windowHandles,
+          );
+
+          const permissionInfo = await driver.findElements(
+            '.confirm-approve-content__medium-text',
+          );
+          const recipientDiv = permissionInfo[1];
+          assert.equal(await recipientDiv.getText(), '0x2f318C33...C970');
+
+          await driver.clickElement({ text: 'Confirm', tag: 'button' });
 
           await driver.switchToWindow(extension);
           await driver.clickElement({ tag: 'button', text: 'Activity' });
@@ -377,17 +391,6 @@ describe('Create token, approve token and approve token without gas', function (
             css: '.transaction-list__pending-transactions .transaction-list__header + .transaction-list-item .list-item__heading',
             text: 'Approve Token spend limit',
           });
-
-          // click on pending transaction and check elements
-          await driver.clickElement('.transaction-list-item');
-
-          const permissionInfo = await driver.findElements(
-            '.confirm-approve-content__medium-text',
-          );
-          const recipientDiv = permissionInfo[1];
-          assert.equal(await recipientDiv.getText(), '0x2f318C33...C970');
-
-          await driver.clickElement({ text: 'Confirm', tag: 'button' });
 
           await driver.waitForSelector({
             css: '.transaction-list__completed-transactions .transaction-list-item:first-child .list-item__heading',
