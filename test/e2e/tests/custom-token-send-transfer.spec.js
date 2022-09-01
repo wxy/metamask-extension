@@ -88,7 +88,7 @@ describe('Send token from inside MetaMask', function () {
 
         // check transaction details
         await driver.waitForSelector({ text: 'Edit', tag: 'button' });
-        
+
         await driver.waitForSelector({
           text: '1 TST',
           tag: 'h1',
