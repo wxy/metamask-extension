@@ -88,6 +88,12 @@ describe('Send token from inside MetaMask', function () {
 
         // check transaction details
         await driver.waitForSelector({ text: 'Edit', tag: 'button' });
+        
+        await driver.waitForSelector({
+          text: '1 TST',
+          tag: 'h1',
+        });
+
         const estimatedGasFee = await driver.findElements(
           '.currency-display-component__text',
         );
@@ -96,12 +102,6 @@ describe('Send token from inside MetaMask', function () {
           '0',
           'Estimated gas fee should not be 0',
         );
-
-        await driver.waitForSelector({
-          text: '1 TST',
-          tag: 'h1',
-        });
-        await driver.delay(1000);
 
         // checks transaction details in hex tab
         await driver.clickElement({
