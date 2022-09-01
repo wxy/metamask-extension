@@ -87,12 +87,12 @@ describe('Send token from inside MetaMask', function () {
         await driver.clickElement('[data-testid="page-container-footer-next"]');
 
         // check transaction details
-        const estimatedGasFee = await driver.waitForSelector(
+        await driver.waitForSelector({ text: 'Edit', tag: 'button' });
+        const estimatedGasFee = await driver.findElements(
           '.currency-display-component__text',
         );
-
         assert.notEqual(
-          await estimatedGasFee.getText(),
+          await estimatedGasFee[0].getText(),
           '0',
           'Estimated gas fee should not be 0',
         );
