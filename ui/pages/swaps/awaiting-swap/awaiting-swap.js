@@ -65,6 +65,7 @@ import { SUPPORT_LINK } from '../../../../shared/lib/ui-utils';
 import SwapFailureIcon from './swap-failure-icon';
 import SwapSuccessIcon from './swap-success-icon';
 import QuotesTimeoutIcon from './quotes-timeout-icon';
+import { getURL } from 'ui/helpers/utils/util';
 
 export default function AwaitingSwap({
   swapComplete,
@@ -178,7 +179,7 @@ export default function AwaitingSwap({
           );
         }}
       >
-        {new URL(SUPPORT_LINK).hostname}
+        {getURL(SUPPORT_LINK).hostname}
       </a>,
     ]);
     submitText = t('tryAgain');
