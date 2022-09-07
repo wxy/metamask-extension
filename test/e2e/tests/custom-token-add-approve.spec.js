@@ -37,7 +37,6 @@ describe('Create token, approve token and approve token without gas', function (
 
         // create token
         await driver.openNewPage(`http://127.0.0.1:8080/`);
-        await driver.waitForSelector({ text: 'Create Token', tag: 'button' });
         await driver.clickElement({ text: 'Create Token', tag: 'button' });
 
         let windowHandles = await driver.getAllWindowHandles();
@@ -57,7 +56,6 @@ describe('Create token, approve token and approve token without gas', function (
         const gasPriceInput = inputs[1];
         await gasLimitInput.fill('4700000');
         await gasPriceInput.fill('20');
-        await driver.waitForSelector({ text: 'Save', tag: 'button' });
         await driver.clickElement({ text: 'Save', tag: 'button' });
         await driver.clickElement({ text: 'Confirm', tag: 'button' });
 
@@ -79,9 +77,7 @@ describe('Create token, approve token and approve token without gas', function (
           text: 'Custom token',
           tag: 'button',
         });
-        await driver.waitForSelector('#custom-address');
         await driver.fill('#custom-address', tokenAddress);
-        await driver.waitForSelector('#custom-symbol');
         await driver.waitForSelector('#custom-decimals');
         await driver.delay(2000);
 
@@ -97,7 +93,6 @@ describe('Create token, approve token and approve token without gas', function (
         });
 
         // renders balance for newly created token
-        await driver.waitForSelector('.app-header__logo-container');
         await driver.clickElement('.app-header__logo-container');
         await driver.clickElement({ tag: 'button', text: 'Assets' });
         const asset = await driver.waitForSelector({
@@ -137,10 +132,6 @@ describe('Create token, approve token and approve token without gas', function (
 
         await driver.findClickableElement('#deployButton');
         // approve token from dapp
-        await driver.waitForSelector({
-          text: 'Approve Tokens',
-          tag: 'button',
-        });
         await driver.clickElement({ text: 'Approve Tokens', tag: 'button' });
 
         await driver.waitUntilXWindowHandles(3);
@@ -223,10 +214,6 @@ describe('Create token, approve token and approve token without gas', function (
         await driver.findClickableElement('#deployButton');
 
         // approve token from dapp
-        await driver.waitForSelector({
-          text: 'Approve Tokens',
-          tag: 'button',
-        });
         await driver.clickElement({ text: 'Approve Tokens', tag: 'button' });
 
         await driver.waitUntilXWindowHandles(3);
@@ -249,7 +236,6 @@ describe('Create token, approve token and approve token without gas', function (
         await gasPriceInput.fill('10');
         await gasLimitInput.clear();
         await gasLimitInput.fill('60001');
-        await driver.findClickableElement({ text: 'Save', tag: 'button' });
         await driver.clickElement({ text: 'Save', tag: 'button' });
 
         await driver.waitForSelector({
