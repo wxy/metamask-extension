@@ -362,10 +362,15 @@ describe('Create token, approve token and approve token without gas', function (
           text: 'Approve Token spend limit',
         });
 
-        await driver.waitForSelector({
+        const approveTokenTask = await driver.waitForSelector({
           css: '.transaction-list__completed-transactions .transaction-list-item:first-child .list-item__heading',
           text: 'Approve Token spend limit',
         });
+
+        assert.equal(
+          await approveTokenTask.getText(),
+          'Approve Token spend limit',
+        );
       },
     );
   });
