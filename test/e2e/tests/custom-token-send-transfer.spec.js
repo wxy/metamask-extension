@@ -6,7 +6,7 @@ const {
 } = require('../helpers');
 const { SMART_CONTRACTS } = require('../seeder/smart-contracts');
 
-describe('Send token from inside MetaMask', function () {
+describe('Custom Token', function () {
   const smartContract = SMART_CONTRACTS.HST;
   const ganacheOptions = {
     accounts: [
@@ -17,7 +17,7 @@ describe('Send token from inside MetaMask', function () {
       },
     ],
   };
-  it('starts to send a transaction, transitions to the confirm screen, displays the token transfer data, customizes gas, submits the transaction, finds the transaction in the transactions list', async function () {
+  it('can be sent from inside MetaMask', async function () {
     await withFixtures(
       {
         dapp: true,
@@ -149,20 +149,8 @@ describe('Send token from inside MetaMask', function () {
       },
     );
   });
-});
 
-describe('Send a custom token from dapp', function () {
-  const smartContract = SMART_CONTRACTS.HST;
-  const ganacheOptions = {
-    accounts: [
-      {
-        secretKey:
-          '0x7C9529A67102755B7E6102D6D950AC5D5863C98713805CEC576B945B15B71EAC',
-        balance: convertToHexValue(25000000000000000000),
-      },
-    ],
-  };
-  it('sends an already created token', async function () {
+  it('can be transferred from a dapp', async function () {
     await withFixtures(
       {
         dapp: true,
@@ -240,7 +228,7 @@ describe('Send a custom token from dapp', function () {
     );
   });
 
-  it('customizes gas, submits the transaction and finds the transaction in the transactions list', async function () {
+  it('can be transferred from a dapp customizing gas values', async function () {
     await withFixtures(
       {
         dapp: true,
@@ -333,20 +321,8 @@ describe('Send a custom token from dapp', function () {
       },
     );
   });
-});
 
-describe('Transfers a custom token from dapp when no gas value is specified', function () {
-  const smartContract = SMART_CONTRACTS.HST;
-  const ganacheOptions = {
-    accounts: [
-      {
-        secretKey:
-          '0x7C9529A67102755B7E6102D6D950AC5D5863C98713805CEC576B945B15B71EAC',
-        balance: convertToHexValue(25000000000000000000),
-      },
-    ],
-  };
-  it('transfers an already created token without specifying gas, submits the transaction, finds the transaction in the transactions list', async function () {
+  it('can be transferred from a dapp without specifying gas', async function () {
     await withFixtures(
       {
         dapp: true,
@@ -401,7 +377,6 @@ describe('Transfers a custom token from dapp when no gas value is specified', fu
           tag: 'h1',
           text: '1.5 TST',
         });
-        await driver.waitForSelector({ text: 'Confirm', tag: 'button' });
         await driver.clickElement({ text: 'Confirm', tag: 'button' });
         // checks transaction finish correctly from extension
         await driver.switchToWindow(extension);
