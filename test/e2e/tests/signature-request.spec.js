@@ -42,7 +42,7 @@ describe('Sign Typed Data V4 Signature Request', function () {
         );
 
         const title = await driver.findElement(
-          '.signature-request-content__title',
+          '.signature-request__content__title',
         );
         const name = await driver.findElement(
           '.signature-request-content__info--bolded',
@@ -124,7 +124,7 @@ describe('Sign Typed Data V3 Signature Request', function () {
         );
 
         const title = await driver.findElement(
-          '.signature-request-content__title',
+          '.signature-request__content__title',
         );
         const name = await driver.findElement(
           '.signature-request-content__info--bolded',
@@ -202,7 +202,7 @@ describe('Sign Typed Data Signature Request', function () {
         );
 
         const title = await driver.findElement(
-          '.request-signature__header__text',
+          '.request-signature__content__title',
         );
         const origin = await driver.findElement('.request-signature__origin');
         const message = await driver.findElements(
