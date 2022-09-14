@@ -31,8 +31,7 @@ const WORKER_KEEP_ALIVE_INTERVAL = 1_000;
 const WORKER_KEEP_ALIVE_MESSAGE = 'WORKER_KEEP_ALIVE_MESSAGE';
 const ACK_KEEP_ALIVE_WAIT_TIME = 60_000; // 1 minute
 const ACK_KEEP_ALIVE_MESSAGE = 'ACK_KEEP_ALIVE_MESSAGE';
-const ACK_KEEP_ALIVE_RECEIVED = {};
-
+let lastMessageRecievedTimestamp = Date.now();
 /*
  * As long as UI is open it will keep sending messages to service worker
  * In service worker as this message is received
@@ -41,18 +40,13 @@ const ACK_KEEP_ALIVE_RECEIVED = {};
  */
 if (isManifestV3) {
   const handle = setInterval(() => {
-    const messageId = new Date().getTime() + Math.random();
-    ACK_KEEP_ALIVE_RECEIVED[messageId] = false;
     browser.runtime.sendMessage({ name: WORKER_KEEP_ALIVE_MESSAGE });
 
-    /**
-     * set timeout to clear the ACK_KEEP_ALIVE_RECEIVED or
-     * show error if response is not received after ACK_KEEP_ALIVE_WAIT_TIME seconds
-     */
     const timeoutHandle = setTimeout(() => {
-      if (ACK_KEEP_ALIVE_RECEIVED[messageId]) {
-        delete ACK_KEEP_ALIVE_RECEIVED[messageId];
-      } else {
+      if (
+        Date.now() - lastMessageRecievedTimestamp >
+        ACK_KEEP_ALIVE_WAIT_TIME
+      ) {
         clearInterval(handle);
         displayCriticalError(
           'somethingIsWrong',
@@ -66,8 +60,8 @@ if (isManifestV3) {
     const channel = new window.BroadcastChannel('sw-messages');
     channel.addEventListener('message', (event) => {
       if (event.data.name === ACK_KEEP_ALIVE_MESSAGE) {
+        lastMessageRecievedTimestamp = Date.now();
         clearTimeout(timeoutHandle);
-        delete ACK_KEEP_ALIVE_RECEIVED[messageId];
       }
     });
   }, WORKER_KEEP_ALIVE_INTERVAL);
