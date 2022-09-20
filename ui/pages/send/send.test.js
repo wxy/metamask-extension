@@ -4,7 +4,6 @@ import thunk from 'redux-thunk';
 import { useLocation } from 'react-router-dom';
 import { SEND_STAGES, startNewDraftTransaction } from '../../ducks/send';
 import { ensInitialState } from '../../ducks/ens';
-import { renderWithProvider } from '../../../test/jest';
 import { CHAIN_IDS } from '../../../shared/constants/network';
 import {
   renderWithProvider,
