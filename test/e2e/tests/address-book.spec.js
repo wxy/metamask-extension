@@ -121,7 +121,6 @@ describe('Address Book', function () {
       },
     );
   });
-
   it('Edit entry in address book', async function () {
     await withFixtures(
       {
@@ -171,7 +170,6 @@ describe('Address Book', function () {
       },
     );
   });
-
   it('Adds an entry to address book and deletes it from address book', async function () {
     await withFixtures(
       {
@@ -192,26 +190,25 @@ describe('Address Book', function () {
           '.send__select-recipient-wrapper__group-item',
         );
         assert.equal(contacts.length, 1);
-        //adding new account
+        // adding new account
         await driver.clickElement({ text: 'Add contact', tag: 'button' });
         const inputUsername = await driver.findElement('#nickname');
         await inputUsername.clear();
-        await inputUsername.fill('Test Name Edit');
+        await inputUsername.fill('Test Name 2');
 
         const inputAddress = await driver.findElement(
           '[data-testid="ens-input"]',
         );
         await inputAddress.clear();
         await inputAddress.fill('0x74cE91B75935D6Bedc27eE002DeFa566c5946f74');
-
         // had to put delay since Save button is always enabled and it need some delay to write in address in input field
         await driver.delay(500);
         await driver.clickElement('[data-testid="page-container-footer-next"]');
 
-        await driver.clickElement({ text: 'Test Name Edit', tag: 'div' });
+        await driver.clickElement({ text: 'Test Name 2', tag: 'div' });
         await driver.clickElement({ text: 'Edit', tag: 'button' });
         await driver.clickElement({ text: 'Delete account', tag: 'a' });
-        //it checks if account is deleted
+        // it checks if account is deleted
         assert.equal(contacts.length, 1);
       },
     );
