@@ -91,6 +91,7 @@
     "**/redux/symbol-observable": "^2.0.3",
     "**/redux-devtools-instrument/symbol-observable": "^2.0.3",
     "**/rxjs/symbol-observable": "^2.0.3",
+    "**/web3-provider-engine/eth-json-rpc-filters": "^5.0.0",
     "**/xmlhttprequest-ssl": "^1.6.2",
     "3box/ipfs/ipld-zcash/zcash-bitcore-lib/lodash": "^4.17.21",
     "3box/ipfs/ipld-zcash/zcash-bitcore-lib/elliptic": "^6.5.4",
@@ -165,7 +166,7 @@
     "end-of-stream": "^1.4.4",
     "eth-block-tracker": "^6.0.0",
     "eth-ens-namehash": "^2.0.8",
-    "eth-json-rpc-filters": "^4.2.1",
+    "eth-json-rpc-filters": "^5.0.0",
     "eth-json-rpc-middleware": "^9.0.0",
     "eth-keyring-controller": "^7.0.2",
     "eth-lattice-keyring": "^0.12.3",
@@ -479,7 +480,9 @@
       "web3>web3-core>web3-core-requestmanager>web3-providers-ws>websocket>bufferutil": false,
       "web3>web3-core>web3-core-requestmanager>web3-providers-ws>websocket>es5-ext": false,
       "web3>web3-core>web3-core-requestmanager>web3-providers-ws>websocket>utf-8-validate": false,
-      "web3>web3-shh": false
+      "web3>web3-shh": false,
+      "3box>ipfs>libp2p>protons-runtime>protobufjs": false,
+      "3box>orbit-db>orbit-db-keystore>libp2p-crypto>ursa-optional": false
     }
   }
 }
