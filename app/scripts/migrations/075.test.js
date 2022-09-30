@@ -36,7 +36,7 @@ describe('migration #75', () => {
 
     const newStorage = await migration75.migrate(oldStorage);
     const newAdvancedGasFee = {
-      '0x3': {
+      '0x5': {
         maxBaseFee: 10,
         priorityFee: 10,
       },
