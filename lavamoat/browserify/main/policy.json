@@ -2679,7 +2679,6 @@
         "@ethereumjs/tx": true,
         "@metamask/contract-metadata": true,
         "@metamask/controllers>abort-controller": true,
-        "@metamask/controllers>async-mutex": true,
         "@metamask/controllers>eth-json-rpc-infura": true,
         "@metamask/controllers>eth-method-registry": true,
         "@metamask/controllers>eth-phishing-detect": true,
@@ -2695,6 +2694,7 @@
         "deep-freeze-strict": true,
         "eslint>fast-deep-equal": true,
         "eth-ens-namehash": true,
+        "eth-json-rpc-filters>async-mutex": true,
         "eth-keyring-controller": true,
         "eth-query": true,
         "eth-rpc-errors": true,
@@ -2713,19 +2713,6 @@
     "@metamask/controllers>abort-controller": {
       "globals": {
         "AbortController": true
-      }
-    },
-    "@metamask/controllers>async-mutex": {
-      "globals": {
-        "setTimeout": true
-      },
-      "packages": {
-        "@metamask/controllers>async-mutex>tslib": true
-      }
-    },
-    "@metamask/controllers>async-mutex>tslib": {
-      "globals": {
-        "define": true
       }
     },
     "@metamask/controllers>eth-json-rpc-infura": {
@@ -2979,27 +2966,8 @@
     },
     "@metamask/controllers>web3-provider-engine>eth-sig-util": {
       "packages": {
-        "@metamask/controllers>web3-provider-engine>eth-sig-util>ethereumjs-abi": true,
-        "@metamask/controllers>web3-provider-engine>ethereumjs-util": true
-      }
-    },
-    "@metamask/controllers>web3-provider-engine>eth-sig-util>ethereumjs-abi": {
-      "packages": {
-        "@metamask/controllers>web3-provider-engine>eth-sig-util>ethereumjs-abi>ethereumjs-util": true,
-        "bn.js": true,
-        "browserify>buffer": true
-      }
-    },
-    "@metamask/controllers>web3-provider-engine>eth-sig-util>ethereumjs-abi>ethereumjs-util": {
-      "packages": {
-        "3box>ethers>elliptic": true,
-        "@metamask/controllers>web3-provider-engine>ethereumjs-util>ethjs-util": true,
-        "bn.js": true,
-        "browserify>assert": true,
-        "browserify>buffer": true,
-        "ethereumjs-util>create-hash": true,
-        "ethereumjs-util>ethereum-cryptography": true,
-        "ethereumjs-util>rlp": true
+        "@metamask/controllers>web3-provider-engine>ethereumjs-util": true,
+        "ethereumjs-abi": true
       }
     },
     "@metamask/controllers>web3-provider-engine>ethereumjs-util": {
@@ -3103,27 +3071,8 @@
     },
     "@metamask/eth-json-rpc-infura>eth-json-rpc-middleware>eth-sig-util": {
       "packages": {
-        "@metamask/eth-json-rpc-infura>eth-json-rpc-middleware>eth-sig-util>ethereumjs-abi": true,
-        "@metamask/eth-json-rpc-infura>eth-json-rpc-middleware>eth-sig-util>ethereumjs-util": true
-      }
-    },
-    "@metamask/eth-json-rpc-infura>eth-json-rpc-middleware>eth-sig-util>ethereumjs-abi": {
-      "packages": {
-        "@metamask/eth-json-rpc-infura>eth-json-rpc-middleware>eth-sig-util>ethereumjs-abi>ethereumjs-util": true,
-        "bn.js": true,
-        "browserify>buffer": true
-      }
-    },
-    "@metamask/eth-json-rpc-infura>eth-json-rpc-middleware>eth-sig-util>ethereumjs-abi>ethereumjs-util": {
-      "packages": {
-        "3box>ethers>elliptic": true,
-        "@metamask/eth-json-rpc-infura>eth-json-rpc-middleware>eth-sig-util>ethereumjs-util>ethjs-util": true,
-        "bn.js": true,
-        "browserify>assert": true,
-        "browserify>buffer": true,
-        "ethereumjs-util>create-hash": true,
-        "ethereumjs-util>ethereum-cryptography": true,
-        "ethereumjs-util>rlp": true
+        "@metamask/eth-json-rpc-infura>eth-json-rpc-middleware>eth-sig-util>ethereumjs-util": true,
+        "ethereumjs-abi": true
       }
     },
     "@metamask/eth-json-rpc-infura>eth-json-rpc-middleware>eth-sig-util>ethereumjs-util": {
@@ -4529,18 +4478,30 @@
         "results": "write"
       },
       "packages": {
-        "await-semaphore": true,
+        "eth-json-rpc-filters>async-mutex": true,
         "eth-json-rpc-filters>eth-json-rpc-middleware": true,
-        "eth-json-rpc-filters>eth-json-rpc-middleware>pify": true,
-        "eth-json-rpc-filters>json-rpc-engine": true,
-        "eth-json-rpc-filters>lodash.flatmap": true,
         "eth-query": true,
-        "safe-event-emitter": true
+        "json-rpc-engine": true,
+        "json-rpc-engine>@metamask/safe-event-emitter": true,
+        "pify": true
+      }
+    },
+    "eth-json-rpc-filters>async-mutex": {
+      "globals": {
+        "setTimeout": true
+      },
+      "packages": {
+        "eth-json-rpc-filters>async-mutex>tslib": true
+      }
+    },
+    "eth-json-rpc-filters>async-mutex>tslib": {
+      "globals": {
+        "define": true
       }
     },
     "eth-json-rpc-filters>eth-json-rpc-middleware": {
       "packages": {
-        "eth-json-rpc-filters>json-rpc-engine": true
+        "eth-json-rpc-filters>eth-json-rpc-middleware>json-rpc-engine": true
       }
     },
     "eth-json-rpc-middleware": {
@@ -4572,27 +4533,8 @@
     },
     "eth-json-rpc-middleware>eth-sig-util": {
       "packages": {
-        "eth-json-rpc-middleware>eth-sig-util>ethereumjs-abi": true,
-        "eth-json-rpc-middleware>eth-sig-util>ethereumjs-util": true
-      }
-    },
-    "eth-json-rpc-middleware>eth-sig-util>ethereumjs-abi": {
-      "packages": {
-        "bn.js": true,
-        "browserify>buffer": true,
-        "eth-json-rpc-middleware>eth-sig-util>ethereumjs-abi>ethereumjs-util": true
-      }
-    },
-    "eth-json-rpc-middleware>eth-sig-util>ethereumjs-abi>ethereumjs-util": {
-      "packages": {
-        "3box>ethers>elliptic": true,
-        "bn.js": true,
-        "browserify>assert": true,
-        "browserify>buffer": true,
-        "eth-json-rpc-middleware>eth-sig-util>ethereumjs-util>ethjs-util": true,
-        "ethereumjs-util>create-hash": true,
-        "ethereumjs-util>ethereum-cryptography": true,
-        "ethereumjs-util>rlp": true
+        "eth-json-rpc-middleware>eth-sig-util>ethereumjs-util": true,
+        "ethereumjs-abi": true
       }
     },
     "eth-json-rpc-middleware>eth-sig-util>ethereumjs-util": {
