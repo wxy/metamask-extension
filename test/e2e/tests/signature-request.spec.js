@@ -44,26 +44,12 @@ describe('Sign Typed Data V4 Signature Request', function () {
         const title = await driver.findElement(
           '.signature-request__content__title',
         );
-        const name = await driver.findElement(
-          '.signature-request-content__info--bolded',
-        );
-        const content = await driver.findElements(
-          '.signature-request-content__info',
-        );
-        const origin = content[0];
-        const address = content[1];
+        const origin = await driver.findElement('.signature-request__origin');
         const message = await driver.findElement(
           '.signature-request-message--node-value',
         );
         assert.equal(await title.getText(), 'Signature request');
-        assert.equal(await name.getText(), 'Ether Mail');
         assert.equal(await origin.getText(), 'http://127.0.0.1:8080');
-        assert.equal(
-          await address.getText(),
-          `${publicAddress.slice(0, 8)}...${publicAddress.slice(
-            publicAddress.length - 8,
-          )}`,
-        );
         assert.equal(await message.getText(), 'Hello, Bob!');
         // Approve signing typed data
         await driver.clickElement(
@@ -126,26 +112,13 @@ describe('Sign Typed Data V3 Signature Request', function () {
         const title = await driver.findElement(
           '.signature-request__content__title',
         );
-        const name = await driver.findElement(
-          '.signature-request-content__info--bolded',
-        );
-        const content = await driver.findElements(
-          '.signature-request-content__info',
-        );
-        const origin = content[0];
-        const address = content[1];
+        const origin = await driver.findElement('.signature-request__origin');
+
         const messages = await driver.findElements(
           '.signature-request-message--node-value',
         );
         assert.equal(await title.getText(), 'Signature request');
-        assert.equal(await name.getText(), 'Ether Mail');
         assert.equal(await origin.getText(), 'http://127.0.0.1:8080');
-        assert.equal(
-          await address.getText(),
-          `${publicAddress.slice(0, 8)}...${publicAddress.slice(
-            publicAddress.length - 8,
-          )}`,
-        );
         assert.equal(await messages[4].getText(), 'Hello, Bob!');
 
         // Approve signing typed data
