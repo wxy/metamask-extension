@@ -93,6 +93,7 @@
     "**/rxjs/symbol-observable": "^2.0.3",
     "**/web3-provider-engine/eth-json-rpc-filters": "^5.0.0",
     "**/xmlhttprequest-ssl": "^1.6.2",
+    "3box/ipfs": "^0.55.0",
     "3box/ipfs/ipld-zcash/zcash-bitcore-lib/lodash": "^4.17.21",
     "3box/ipfs/ipld-zcash/zcash-bitcore-lib/elliptic": "^6.5.4",
     "3box/ipfs/libp2p-mdns/multicast-dns/dns-packet": "^5.2.2",
