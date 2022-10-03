@@ -2417,7 +2417,7 @@
       },
       "packages": {
         "eslint-plugin-import>eslint-module-utils>find-up>locate-path>p-locate": true,
-        "eslint-plugin-import>eslint-module-utils>find-up>locate-path>path-exists": true
+        "mocha>find-up>locate-path>path-exists": true
       }
     },
     "eslint-plugin-import>eslint-module-utils>find-up>locate-path>p-locate": {
@@ -2428,12 +2428,6 @@
     "eslint-plugin-import>eslint-module-utils>find-up>locate-path>p-locate>p-limit": {
       "packages": {
         "eslint-plugin-import>eslint-module-utils>find-up>locate-path>p-locate>p-limit>p-try": true
-      }
-    },
-    "eslint-plugin-import>eslint-module-utils>find-up>locate-path>path-exists": {
-      "builtin": {
-        "fs.access": true,
-        "fs.accessSync": true
       }
     },
     "eslint-plugin-import>tsconfig-paths": {
@@ -6482,6 +6476,12 @@
         "process.env.TERM_PROGRAM": true,
         "process.env.WT_SESSION": true,
         "process.platform": true
+      }
+    },
+    "mocha>find-up>locate-path>path-exists": {
+      "builtin": {
+        "fs.access": true,
+        "fs.accessSync": true
       }
     },
     "mocha>minimatch>brace-expansion": {
