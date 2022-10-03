@@ -483,7 +483,15 @@
       "web3>web3-core>web3-core-requestmanager>web3-providers-ws>websocket>utf-8-validate": false,
       "web3>web3-shh": false,
       "3box>ipfs>libp2p>protons-runtime>protobufjs": false,
-      "3box>orbit-db>orbit-db-keystore>libp2p-crypto>ursa-optional": false
+      "3box>orbit-db>orbit-db-keystore>libp2p-crypto>ursa-optional": false,
+      "3box>ipfs>ipfs-cli>ipfs-daemon>electron-webrtc>electron-eval>electron": false,
+      "3box>ipfs>ipfs-cli>ipfs-daemon>ipfs-grpc-server>@grpc/grpc-js>@grpc/proto-loader>protobufjs": false,
+      "3box>ipfs>ipfs-cli>ipfs-daemon>prometheus-gc-stats>gc-stats": false,
+      "3box>ipfs>ipfs-cli>ipfs-daemon>wrtc": false,
+      "3box>ipfs>ipfs-cli>ipfs-http-client>it-tar>iso-constants": false,
+      "3box>ipfs>ipfs-cli>ipfs-repo>datastore-level>level>leveldown": false,
+      "3box>ipfs>ipfs-cli>libp2p-crypto>secp256k1": false,
+      "3box>ipfs>ipfs-cli>libp2p-crypto>ursa-optional": false
     }
   }
 }
