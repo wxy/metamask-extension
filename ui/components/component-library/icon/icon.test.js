@@ -5,7 +5,7 @@ import { SIZES, COLORS } from '../../../helpers/constants/design-system';
 import { ICON_NAMES } from './icon.constants';
 import { Icon } from './icon';
 
-const TEST_ICON_NAMES = JSON.parse(process.env.ICON_NAMES);
+const TEST_ICON_NAMES = JSON.parse(ICON_NAMES);
 
 describe('Icon', () => {
   it('should render correctly', () => {
