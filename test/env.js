@@ -5,7 +5,7 @@ process.env.METAMASK_ENV = 'test';
  * 'ui/components/component-library/icon/icon.js'
  * TODO: Make this apart of the icon name build
  */
-process.env.ICON_NAMES = {
+process.env.ICON_NAMES = JSON.stringify({
   ADD_OUTLINE: 'add-outline',
   ADD_SQUARE_FILLED: 'add-square-filled',
   ARROW_2_DOWN: 'arrow-2-down',
@@ -75,7 +75,7 @@ process.env.ICON_NAMES = {
   MENU_OUTLINE: 'menu-outline',
   MESSAGE_QUESTION_FILLED: 'message-question-filled',
   MESSAGES_FILLED: 'messages-filled',
-  MINUS_OUTINE: 'minus-outine',
+  MINUS_OUTLINE: 'minus-outline',
   MINUS_SQUARE_FILLED: 'minus-square-filled',
   MOBILE_FILLED: 'mobile-filled',
   MONEY_FILLED: 'money-filled',
@@ -129,4 +129,4 @@ process.env.ICON_NAMES = {
   WALLET_FILLED: 'wallet-filled',
   WALLET_MONEY_FILLED: 'wallet-money-filled',
   WARNING_FILLED: 'warning-filled',
-};
+});
