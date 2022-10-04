@@ -93,7 +93,6 @@ export const DefaultStory = (args) => <Icon {...args} />;
 DefaultStory.storyName = 'Default';
 
 export const Name = (args) => {
-  console.log('ICON_NAMES', ICON_NAMES);
   const [search, setSearch] = useState('');
   const iconList = Object.keys(ICON_NAMES)
     .filter(
