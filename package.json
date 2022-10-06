@@ -93,7 +93,6 @@
     "**/rxjs/symbol-observable": "^2.0.3",
     "**/web3-provider-engine/eth-json-rpc-filters": "^5.0.0",
     "**/xmlhttprequest-ssl": "^1.6.2",
-    "3box/ipfs/ipfs-bitswap": "~0.29.2",
     "3box/ipfs/ipld-zcash/zcash-bitcore-lib/lodash": "^4.17.21",
     "3box/ipfs/ipld-zcash/zcash-bitcore-lib/elliptic": "^6.5.4",
     "3box/ipfs/libp2p-mdns/multicast-dns/dns-packet": "^5.2.2",
@@ -480,8 +479,7 @@
       "web3>web3-bzz": false,
       "web3>web3-core>web3-core-requestmanager>web3-providers-ws>websocket>bufferutil": false,
       "web3>web3-core>web3-core-requestmanager>web3-providers-ws>websocket>es5-ext": false,
-      "web3>web3-core>web3-core-requestmanager>web3-providers-ws>websocket>utf-8-validate": false,
-      "3box>ipfs>ipfs-bitswap>protobufjs": false
+      "web3>web3-core>web3-core-requestmanager>web3-providers-ws>websocket>utf-8-validate": false
     }
   }
 }

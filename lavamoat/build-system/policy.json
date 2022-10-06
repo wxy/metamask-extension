@@ -1056,6 +1056,11 @@
         "@metamask/jazzicon>color>color-convert>color-name": true
       }
     },
+    "@sentry/utils>tslib": {
+      "globals": {
+        "define": true
+      }
+    },
     "@storybook/addon-essentials>@storybook/addon-docs>remark-slug>unist-util-visit": {
       "packages": {
         "@storybook/addon-essentials>@storybook/addon-docs>remark-slug>unist-util-visit>unist-util-visit-parents": true
@@ -1142,13 +1147,8 @@
     },
     "@typescript-eslint/eslint-plugin>tsutils": {
       "packages": {
-        "@typescript-eslint/eslint-plugin>tsutils>tslib": true,
+        "@sentry/utils>tslib": true,
         "typescript": true
-      }
-    },
-    "@typescript-eslint/eslint-plugin>tsutils>tslib": {
-      "globals": {
-        "define": true
       }
     },
     "@typescript-eslint/parser": {
@@ -2880,7 +2880,21 @@
       },
       "packages": {
         "eslint>file-entry-cache>flat-cache>flatted": true,
-        "nyc>rimraf": true
+        "eslint>file-entry-cache>flat-cache>rimraf": true
+      }
+    },
+    "eslint>file-entry-cache>flat-cache>rimraf": {
+      "builtin": {
+        "assert": true,
+        "fs": true,
+        "path.join": true
+      },
+      "globals": {
+        "process.platform": true,
+        "setTimeout": true
+      },
+      "packages": {
+        "nyc>glob": true
       }
     },
     "eslint>glob-parent": {
@@ -6490,6 +6504,13 @@
         "stylelint>balanced-match": true
       }
     },
+    "mocha>mkdirp": {
+      "builtin": {
+        "fs": true,
+        "path.dirname": true,
+        "path.resolve": true
+      }
+    },
     "mocha>supports-color>has-flag": {
       "globals": {
         "process.argv": true
@@ -6623,20 +6644,6 @@
         "module._resolveFilename": true,
         "path.join": true,
         "path.resolve": true
-      }
-    },
-    "nyc>rimraf": {
-      "builtin": {
-        "assert": true,
-        "fs": true,
-        "path.join": true
-      },
-      "globals": {
-        "process.platform": true,
-        "setTimeout": true
-      },
-      "packages": {
-        "nyc>glob": true
       }
     },
     "nyc>signal-exit": {
@@ -7337,7 +7344,7 @@
         "path.dirname": true
       },
       "packages": {
-        "webpack>mkdirp": true
+        "mocha>mkdirp": true
       }
     },
     "stylelint>global-modules": {
@@ -8447,13 +8454,6 @@
     "webpack>micromatch>to-regex>safe-regex": {
       "packages": {
         "enzyme>rst-selector-parser>nearley>randexp>ret": true
-      }
-    },
-    "webpack>mkdirp": {
-      "builtin": {
-        "fs": true,
-        "path.dirname": true,
-        "path.resolve": true
       }
     },
     "yargs": {
