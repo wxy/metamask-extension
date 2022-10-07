@@ -1,11 +1,7 @@
 /* eslint-disable mocha/no-skipped-tests */
 const { strict: assert } = require('assert');
 
-const {
-  convertToHexValue,
-  withFixtures,
-  getWindowHandles,
-} = require('../helpers');
+const { convertToHexValue, withFixtures } = require('../helpers');
 const { SMART_CONTRACTS } = require('../seeder/smart-contracts');
 
 describe('Create token, approve token and approve token without gas', function () {
@@ -20,7 +16,7 @@ describe('Create token, approve token and approve token without gas', function (
     ],
   };
 
-  it('creates, imports and renders the balance for the new token', async function () {
+  it('imports and renders the balance for the new token', async function () {
     await withFixtures(
       {
         dapp: true,
@@ -30,42 +26,22 @@ describe('Create token, approve token and approve token without gas', function (
         failOnConsoleError: false,
         title: this.test.title,
       },
-      async ({ driver }) => {
+      async ({ driver, contractRegistry }) => {
+        const contractAddress = await contractRegistry.getContractAddress(
+          smartContract,
+        );
         await driver.navigate();
         await driver.fill('#password', 'correct horse battery staple');
         await driver.press('#password', driver.Key.ENTER);
 
         // create token
-        await driver.openNewPage(`http://127.0.0.1:8080/`);
-        await driver.clickElement({ text: 'Create Token', tag: 'button' });
-
-        let windowHandles = await driver.getAllWindowHandles();
-        const extension = windowHandles[0];
-
-        await driver.waitUntilXWindowHandles(3);
-        windowHandles = await driver.getAllWindowHandles();
-
-        // switch to popup
-        await driver.switchToWindowWithTitle(
-          'MetaMask Notification',
-          windowHandles,
+        await driver.openNewPage(
+          `http://127.0.0.1:8080/?contract=${contractAddress}`,
         );
-        await driver.clickElement({ text: 'Edit', tag: 'button' });
-        const inputs = await driver.findElements('input[type="number"]');
-        const gasLimitInput = inputs[0];
-        const gasPriceInput = inputs[1];
-        await gasLimitInput.fill('4700000');
-        await gasPriceInput.fill('20');
-        await driver.clickElement({ text: 'Save', tag: 'button' });
-        await driver.clickElement({ text: 'Confirm', tag: 'button' });
 
-        windowHandles = await getWindowHandles(driver, 2);
-
-        const tokenContractAddress = await driver.waitForSelector({
-          css: '#tokenAddress',
-          text: '0x',
-        });
-        const tokenAddress = await tokenContractAddress.getText();
+        // create token
+        const windowHandles = await driver.getAllWindowHandles();
+        const extension = windowHandles[0];
 
         // imports custom token from extension
         await driver.switchToWindow(extension);
@@ -77,7 +53,7 @@ describe('Create token, approve token and approve token without gas', function (
           text: 'Custom token',
           tag: 'button',
         });
-        await driver.fill('#custom-address', tokenAddress);
+        await driver.fill('#custom-address', contractAddress);
         await driver.waitForSelector('#custom-decimals');
         await driver.delay(2000);
 
