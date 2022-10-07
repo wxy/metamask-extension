@@ -63,7 +63,6 @@ describe('Custom Token', function () {
         });
         asset.click();
         // send token from extension
-        await driver.waitForSelector('[data-testid="eth-overview-send"]');
         await driver.clickElement('[data-testid="eth-overview-send"]');
 
         await driver.fill(
@@ -72,9 +71,6 @@ describe('Custom Token', function () {
         );
         await driver.fill('.unit-input__input', '1');
         // continue to next screen
-        await driver.waitForSelector(
-          '[data-testid="page-container-footer-next"]',
-        );
         await driver.clickElement('[data-testid="page-container-footer-next"]');
         // added wait for selector since it needs some time to load this page
         // otherwise would have to use delays
