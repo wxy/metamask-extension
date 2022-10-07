@@ -63,6 +63,7 @@ describe('Custom Token', function () {
         });
         asset.click();
         // send token from extension
+        await driver.waitForSelector('[data-testid="eth-overview-send"]');
         await driver.clickElement('[data-testid="eth-overview-send"]');
 
         await driver.fill(
