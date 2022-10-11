@@ -141,7 +141,7 @@
         "3box>ethers>elliptic>hmac-drbg": true,
         "3box>ethers>elliptic>minimalistic-crypto-utils": true,
         "3box>ethers>hash.js>minimalistic-assert": true,
-        "bn.js": true,
+        "ethereumjs-abi>bn.js": true,
         "ethers>@ethersproject/sha2>hash.js": true,
         "pumpify>inherits": true
       }
@@ -891,8 +891,8 @@
     "3box>ipfs>libp2p-crypto>asn1.js": {
       "packages": {
         "3box>ethers>hash.js>minimalistic-assert": true,
-        "bn.js": true,
         "browserify>buffer": true,
+        "ethereumjs-abi>bn.js": true,
         "pumpify>inherits": true
       }
     },
@@ -3147,17 +3147,17 @@
     "@metamask/controllers>web3-provider-engine>eth-sig-util>ethereumjs-abi": {
       "packages": {
         "@metamask/controllers>web3-provider-engine>eth-sig-util>ethereumjs-abi>ethereumjs-util": true,
-        "bn.js": true,
-        "browserify>buffer": true
+        "browserify>buffer": true,
+        "ethereumjs-abi>bn.js": true
       }
     },
     "@metamask/controllers>web3-provider-engine>eth-sig-util>ethereumjs-abi>ethereumjs-util": {
       "packages": {
         "3box>ethers>elliptic": true,
         "@metamask/controllers>web3-provider-engine>ethereumjs-util>ethjs-util": true,
-        "bn.js": true,
         "browserify>assert": true,
         "browserify>buffer": true,
+        "ethereumjs-abi>bn.js": true,
         "ethereumjs-util>create-hash": true,
         "ethereumjs-util>ethereum-cryptography": true,
         "ethereumjs-util>rlp": true
@@ -3167,9 +3167,9 @@
       "packages": {
         "3box>ethers>elliptic": true,
         "@metamask/controllers>web3-provider-engine>ethereumjs-util>ethjs-util": true,
-        "bn.js": true,
         "browserify>assert": true,
         "browserify>buffer": true,
+        "ethereumjs-abi>bn.js": true,
         "ethereumjs-util>create-hash": true,
         "ethereumjs-util>ethereum-cryptography": true,
         "ethereumjs-util>rlp": true,
@@ -3264,17 +3264,17 @@
     "@metamask/eth-json-rpc-infura>eth-json-rpc-middleware>eth-sig-util>ethereumjs-abi": {
       "packages": {
         "@metamask/eth-json-rpc-infura>eth-json-rpc-middleware>eth-sig-util>ethereumjs-abi>ethereumjs-util": true,
-        "bn.js": true,
-        "browserify>buffer": true
+        "browserify>buffer": true,
+        "ethereumjs-abi>bn.js": true
       }
     },
     "@metamask/eth-json-rpc-infura>eth-json-rpc-middleware>eth-sig-util>ethereumjs-abi>ethereumjs-util": {
       "packages": {
         "3box>ethers>elliptic": true,
         "@metamask/eth-json-rpc-infura>eth-json-rpc-middleware>eth-sig-util>ethereumjs-util>ethjs-util": true,
-        "bn.js": true,
         "browserify>assert": true,
         "browserify>buffer": true,
+        "ethereumjs-abi>bn.js": true,
         "ethereumjs-util>create-hash": true,
         "ethereumjs-util>ethereum-cryptography": true,
         "ethereumjs-util>rlp": true
@@ -3284,9 +3284,9 @@
       "packages": {
         "3box>ethers>elliptic": true,
         "@metamask/eth-json-rpc-infura>eth-json-rpc-middleware>eth-sig-util>ethereumjs-util>ethjs-util": true,
-        "bn.js": true,
         "browserify>assert": true,
         "browserify>buffer": true,
+        "ethereumjs-abi>bn.js": true,
         "ethereumjs-util>create-hash": true,
         "ethereumjs-util>ethereum-cryptography": true,
         "ethereumjs-util>rlp": true,
@@ -3331,9 +3331,9 @@
       "packages": {
         "3box>ethers>elliptic": true,
         "@metamask/eth-ledger-bridge-keyring>eth-sig-util>ethereumjs-util>ethjs-util": true,
-        "bn.js": true,
         "browserify>assert": true,
         "browserify>buffer": true,
+        "ethereumjs-abi>bn.js": true,
         "ethereumjs-util>create-hash": true,
         "ethereumjs-util>ethereum-cryptography": true,
         "ethereumjs-util>rlp": true,
@@ -4668,8 +4668,8 @@
         "@truffle/codec>utf8": true,
         "@truffle/codec>web3-utils>eth-lib": true,
         "@truffle/codec>web3-utils>ethereum-bloom-filters": true,
-        "bn.js": true,
         "browserify>insert-module-globals>is-buffer": true,
+        "ethereumjs-abi>bn.js": true,
         "ethereumjs-wallet>randombytes": true,
         "ethjs>ethjs-unit": true,
         "ethjs>number-to-bn": true
@@ -4845,14 +4845,6 @@
         "define": true
       }
     },
-    "bn.js": {
-      "globals": {
-        "Buffer": true
-      },
-      "packages": {
-        "browserify>browser-resolve": true
-      }
-    },
     "browserify>assert": {
       "globals": {
         "Buffer": true
@@ -4932,12 +4924,12 @@
     "browserify>crypto-browserify>browserify-sign": {
       "packages": {
         "3box>ethers>elliptic": true,
-        "bn.js": true,
         "browserify>buffer": true,
         "browserify>crypto-browserify>create-hmac": true,
         "browserify>crypto-browserify>public-encrypt>browserify-rsa": true,
         "browserify>crypto-browserify>public-encrypt>parse-asn1": true,
         "browserify>stream-browserify": true,
+        "ethereumjs-abi>bn.js": true,
         "ethereumjs-util>create-hash": true,
         "pumpify>inherits": true
       }
@@ -4945,8 +4937,8 @@
     "browserify>crypto-browserify>create-ecdh": {
       "packages": {
         "3box>ethers>elliptic": true,
-        "bn.js": true,
-        "browserify>buffer": true
+        "browserify>buffer": true,
+        "ethereumjs-abi>bn.js": true
       }
     },
     "browserify>crypto-browserify>create-hmac": {
@@ -4961,16 +4953,16 @@
     },
     "browserify>crypto-browserify>diffie-hellman": {
       "packages": {
-        "bn.js": true,
         "browserify>buffer": true,
         "browserify>crypto-browserify>diffie-hellman>miller-rabin": true,
+        "ethereumjs-abi>bn.js": true,
         "ethereumjs-wallet>randombytes": true
       }
     },
     "browserify>crypto-browserify>diffie-hellman>miller-rabin": {
       "packages": {
         "3box>ethers>elliptic>brorand": true,
-        "bn.js": true
+        "ethereumjs-abi>bn.js": true
       }
     },
     "browserify>crypto-browserify>pbkdf2": {
@@ -4991,18 +4983,18 @@
     },
     "browserify>crypto-browserify>public-encrypt": {
       "packages": {
-        "bn.js": true,
         "browserify>buffer": true,
         "browserify>crypto-browserify>public-encrypt>browserify-rsa": true,
         "browserify>crypto-browserify>public-encrypt>parse-asn1": true,
+        "ethereumjs-abi>bn.js": true,
         "ethereumjs-util>create-hash": true,
         "ethereumjs-wallet>randombytes": true
       }
     },
     "browserify>crypto-browserify>public-encrypt>browserify-rsa": {
       "packages": {
-        "bn.js": true,
         "browserify>buffer": true,
+        "ethereumjs-abi>bn.js": true,
         "ethereumjs-wallet>randombytes": true
       }
     },
@@ -5018,9 +5010,9 @@
     "browserify>crypto-browserify>public-encrypt>parse-asn1>asn1.js": {
       "packages": {
         "3box>ethers>hash.js>minimalistic-assert": true,
-        "bn.js": true,
         "browserify>buffer": true,
         "browserify>vm-browserify": true,
+        "ethereumjs-abi>bn.js": true,
         "pumpify>inherits": true
       }
     },
@@ -5601,7 +5593,6 @@
         "3box>ethers>elliptic": true,
         "@ethereumjs/common>crc-32": true,
         "@metamask/rpc-methods>@metamask/controllers>@ethersproject/abi": true,
-        "bn.js": true,
         "browserify>buffer": true,
         "browserify>process": true,
         "eth-lattice-keyring>gridplus-sdk>@ethereumjs/common": true,
@@ -5613,6 +5604,7 @@
         "eth-lattice-keyring>gridplus-sdk>eth-eip712-util-browser": true,
         "eth-lattice-keyring>gridplus-sdk>rlp": true,
         "eth-lattice-keyring>gridplus-sdk>secp256k1": true,
+        "ethereumjs-abi>bn.js": true,
         "ethereumjs-wallet>aes-js": true,
         "ethereumjs-wallet>bs58check": true,
         "ethers>@ethersproject/keccak256>js-sha3": true,
@@ -5743,10 +5735,10 @@
     "eth-sig-util>ethereumjs-util": {
       "packages": {
         "3box>ethers>elliptic": true,
-        "bn.js": true,
         "browserify>assert": true,
         "browserify>buffer": true,
         "eth-sig-util>ethereumjs-util>ethjs-util": true,
+        "ethereumjs-abi>bn.js": true,
         "ethereumjs-util>create-hash": true,
         "ethereumjs-util>ethereum-cryptography": true,
         "ethereumjs-util>rlp": true,
@@ -5786,10 +5778,10 @@
     "eth-trezor-keyring>@metamask/eth-sig-util>ethereumjs-util": {
       "packages": {
         "3box>ethers>elliptic": true,
-        "bn.js": true,
         "browserify>assert": true,
         "browserify>buffer": true,
         "eth-trezor-keyring>@metamask/eth-sig-util>ethjs-util": true,
+        "ethereumjs-abi>bn.js": true,
         "ethereumjs-util>create-hash": true,
         "ethereumjs-util>ethereum-cryptography": true,
         "ethereumjs-util>rlp": true
@@ -5821,10 +5813,10 @@
     "eth-trezor-keyring>hdkey>secp256k1": {
       "packages": {
         "3box>ethers>elliptic": true,
-        "bn.js": true,
         "browserify>insert-module-globals>is-buffer": true,
         "eth-trezor-keyring>hdkey>secp256k1>bip66": true,
         "eth-trezor-keyring>hdkey>secp256k1>drbg.js": true,
+        "ethereumjs-abi>bn.js": true,
         "ethereumjs-util>create-hash": true,
         "ethereumjs-wallet>safe-buffer": true
       }
@@ -5870,17 +5862,25 @@
     },
     "ethereumjs-abi": {
       "packages": {
-        "bn.js": true,
         "browserify>buffer": true,
+        "ethereumjs-abi>bn.js": true,
         "ethereumjs-abi>ethereumjs-util": true
+      }
+    },
+    "ethereumjs-abi>bn.js": {
+      "globals": {
+        "Buffer": true
+      },
+      "packages": {
+        "browserify>browser-resolve": true
       }
     },
     "ethereumjs-abi>ethereumjs-util": {
       "packages": {
         "3box>ethers>elliptic": true,
-        "bn.js": true,
         "browserify>assert": true,
         "browserify>buffer": true,
+        "ethereumjs-abi>bn.js": true,
         "ethereumjs-abi>ethereumjs-util>ethjs-util": true,
         "ethereumjs-util>create-hash": true,
         "ethereumjs-util>ethereum-cryptography": true,
@@ -6060,9 +6060,9 @@
     "ethereumjs-wallet>ethereumjs-util": {
       "packages": {
         "3box>ethers>elliptic": true,
-        "bn.js": true,
         "browserify>assert": true,
         "browserify>buffer": true,
+        "ethereumjs-abi>bn.js": true,
         "ethereumjs-util>create-hash": true,
         "ethereumjs-util>ethereum-cryptography": true,
         "ethereumjs-util>rlp": true,
@@ -6338,7 +6338,7 @@
     },
     "ethers>@ethersproject/bignumber": {
       "packages": {
-        "bn.js": true,
+        "ethereumjs-abi>bn.js": true,
         "ethers>@ethersproject/bignumber>@ethersproject/bytes": true,
         "ethers>@ethersproject/bignumber>@ethersproject/logger": true
       }
