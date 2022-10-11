@@ -117,6 +117,11 @@ describe('Create token, approve token and approve token without gas', function (
           windowHandles,
         );
 
+        await driver.clickElement({
+          text: 'View full transaction details',
+          css: '.confirm-approve-content__small-blue-text',
+        });
+
         // checks elements on approve token popup
         const functionType = await driver.findElement(
           '.confirm-approve-content__data .confirm-approve-content__small-text',
@@ -198,6 +203,10 @@ describe('Create token, approve token and approve token without gas', function (
           'MetaMask Notification',
           windowHandles,
         );
+        await driver.clickElement({
+          text: 'View full transaction details',
+          css: '.confirm-approve-content__small-blue-text',
+        });
 
         // check elements on approve token popup
         await driver.clickElement('.confirm-approve-content__small-blue-text');
@@ -298,6 +307,11 @@ describe('Create token, approve token and approve token without gas', function (
           'MetaMask Notification',
           windowHandles,
         );
+
+        await driver.clickElement({
+          text: 'View full transaction details',
+          css: '.confirm-approve-content__small-blue-text',
+        });
 
         const permissionInfo = await driver.findElements(
           '.confirm-approve-content__medium-text',
