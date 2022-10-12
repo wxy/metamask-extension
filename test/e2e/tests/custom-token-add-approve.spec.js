@@ -23,7 +23,6 @@ describe('Create token, approve token and approve token without gas', function (
         fixtures: 'connected-state',
         ganacheOptions,
         smartContract,
-        failOnConsoleError: false,
         title: this.test.title,
       },
       async ({ driver, contractRegistry }) => {
@@ -39,7 +38,6 @@ describe('Create token, approve token and approve token without gas', function (
           `http://127.0.0.1:8080/?contract=${contractAddress}`,
         );
 
-        // create token
         const windowHandles = await driver.getAllWindowHandles();
         const extension = windowHandles[0];
 
@@ -87,7 +85,6 @@ describe('Create token, approve token and approve token without gas', function (
         fixtures: 'connected-state',
         ganacheOptions,
         smartContract,
-        failOnConsoleError: false,
         title: this.test.title,
       },
       async ({ driver, contractRegistry }) => {
@@ -173,7 +170,6 @@ describe('Create token, approve token and approve token without gas', function (
         fixtures: 'connected-state',
         ganacheOptions,
         smartContract,
-        failOnConsoleError: false,
         title: this.test.title,
       },
       async ({ driver, contractRegistry }) => {
@@ -278,7 +274,6 @@ describe('Create token, approve token and approve token without gas', function (
         fixtures: 'connected-state',
         ganacheOptions,
         smartContract,
-        failOnConsoleError: false,
         title: this.test.title,
       },
       async ({ driver, contractRegistry }) => {
