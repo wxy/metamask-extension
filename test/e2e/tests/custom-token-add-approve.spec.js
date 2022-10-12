@@ -23,6 +23,7 @@ describe('Create token, approve token and approve token without gas', function (
         fixtures: 'connected-state',
         ganacheOptions,
         smartContract,
+        failOnConsoleError: false, 
         title: this.test.title,
       },
       async ({ driver, contractRegistry }) => {
