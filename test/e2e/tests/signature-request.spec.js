@@ -50,8 +50,10 @@ describe('Sign Typed Data V4 Signature Request', function () {
         const content = await driver.findElements(
           '.signature-request-content__info',
         );
+        const verifyContractDetailsButton = await driver.findElement(
+          '.signature-request-content__verify-contract-details',
+        );
         const origin = content[0];
-        const address = content[1];
         const message = await driver.findElement(
           '.signature-request-message--node-value',
         );
@@ -59,10 +61,8 @@ describe('Sign Typed Data V4 Signature Request', function () {
         assert.equal(await name.getText(), 'Ether Mail');
         assert.equal(await origin.getText(), 'http://127.0.0.1:8080');
         assert.equal(
-          await address.getText(),
-          `${publicAddress.slice(0, 8)}...${publicAddress.slice(
-            publicAddress.length - 8,
-          )}`,
+          await verifyContractDetailsButton.getText(),
+          'Verify contract details',
         );
         assert.equal(await message.getText(), 'Hello, Bob!');
         // Approve signing typed data
@@ -132,8 +132,10 @@ describe('Sign Typed Data V3 Signature Request', function () {
         const content = await driver.findElements(
           '.signature-request-content__info',
         );
+        const verifyContractDetailsButton = await driver.findElement(
+          '.signature-request-content__verify-contract-details',
+        );
         const origin = content[0];
-        const address = content[1];
         const messages = await driver.findElements(
           '.signature-request-message--node-value',
         );
@@ -141,10 +143,8 @@ describe('Sign Typed Data V3 Signature Request', function () {
         assert.equal(await name.getText(), 'Ether Mail');
         assert.equal(await origin.getText(), 'http://127.0.0.1:8080');
         assert.equal(
-          await address.getText(),
-          `${publicAddress.slice(0, 8)}...${publicAddress.slice(
-            publicAddress.length - 8,
-          )}`,
+          await verifyContractDetailsButton.getText(),
+          'Verify contract details',
         );
         assert.equal(await messages[4].getText(), 'Hello, Bob!');
 
