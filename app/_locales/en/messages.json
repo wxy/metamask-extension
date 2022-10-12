@@ -758,6 +758,9 @@
   "contractInteraction": {
     "message": "Contract interaction"
   },
+  "contractRequestingSignature": {
+    "message": "Contract requesting signature"
+  },
   "contractRequestingSpendingCap": {
     "message": "Contract requesting spending cap"
   },
