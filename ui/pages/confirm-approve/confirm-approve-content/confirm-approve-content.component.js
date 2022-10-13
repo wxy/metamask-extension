@@ -32,6 +32,8 @@ import {
   ERC721,
 } from '../../../../shared/constants/transaction';
 import { CHAIN_IDS, TEST_CHAINS } from '../../../../shared/constants/network';
+import { fetchTokenBalance } from '../../swaps/swaps.util';
+import NftInfoSetApprovalForAll from '../../../components/ui/nft-info-setApprovalForAll';
 
 export default class ConfirmApproveContent extends Component {
   static contextTypes = {
@@ -77,11 +79,33 @@ export default class ConfirmApproveContent extends Component {
     isSetApproveForAll: PropTypes.bool,
     isApprovalOrRejection: PropTypes.bool,
     userAddress: PropTypes.string,
+    collections: PropTypes.shape({
+      collectibles: PropTypes.arrayOf(
+        PropTypes.shape({
+          address: PropTypes.string.isRequired,
+          tokenId: PropTypes.string.isRequired,
+          name: PropTypes.string,
+          description: PropTypes.string,
+          image: PropTypes.string,
+          standard: PropTypes.string,
+          imageThumbnail: PropTypes.string,
+          imagePreview: PropTypes.string,
+          creator: PropTypes.shape({
+            address: PropTypes.string,
+            config: PropTypes.string,
+            profile_img_url: PropTypes.string,
+          }),
+        }),
+      ),
+      collectionImage: PropTypes.string,
+      collectionName: PropTypes.string,
+    }),
   };
 
   state = {
     showFullTxDetails: false,
     copied: false,
+    collectionBalance: 0,
   };
 
   renderApproveContentCard({
@@ -565,6 +589,14 @@ export default class ConfirmApproveContent extends Component {
     return description;
   }
 
+  async componentDidMount() {
+    const { tokenAddress, userAddress } = this.props;
+    const tokenBalance = await fetchTokenBalance(tokenAddress, userAddress);
+    this.setState({
+      collectionBalance: tokenBalance?.balance?.words?.[0],
+    });
+  }
+
   render() {
     const { t } = this.context;
     const {
@@ -588,6 +620,10 @@ export default class ConfirmApproveContent extends Component {
       isContract,
       assetStandard,
       userAddress,
+      assetName,
+      tokenAddress,
+      isSetApproveForAll,
+      collections,
     } = this.props;
     const { showFullTxDetails } = this.state;
 
@@ -698,6 +734,17 @@ export default class ConfirmApproveContent extends Component {
             </Button>
           </Box>
         </Box>
+        {isSetApproveForAll ? (
+          <Box padding={4} width={BLOCK_SIZES.FULL}>
+            <NftInfoSetApprovalForAll
+              assetName={assetName}
+              tokenAddress={tokenAddress}
+              userAddress={userAddress}
+              collections={collections}
+              total={this.state.collectionBalance}
+            />
+          </Box>
+        ) : null}
         {assetStandard === ERC20 ? (
           <div className="confirm-approve-content__edit-submission-button-container">
             <div
