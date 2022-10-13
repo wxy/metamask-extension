@@ -93,6 +93,7 @@ const ConfirmPageContainerWarning = ({
         margin={4}
         marginTop={4}
         marginBottom={4}
+        variant={TYPOGRAPHY.H6}
       >
         {t('nftWarningContent', [
           <strong
