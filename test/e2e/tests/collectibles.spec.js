@@ -171,16 +171,12 @@ describe('Collectibles', function () {
         const [func, params] = await driver.findElements(
           '.confirm-approve-content__data .confirm-approve-content__small-text',
         );
-        const proceedWithCautionIsDisplayed = await driver.isElementPresent(
-          '.dialog--error',
-        );
         assert.equal(
           await title.getText(),
           'Allow access to and transfer of all your TestDappCollectibles?',
         );
         assert.equal(await func.getText(), 'Function: SetApprovalForAll');
         assert.equal(await params.getText(), 'Parameters: true');
-        assert.equal(proceedWithCautionIsDisplayed, true);
 
         // Confirm enabling set approval for all
         await driver.clickElement({ text: 'Confirm', tag: 'button' });
