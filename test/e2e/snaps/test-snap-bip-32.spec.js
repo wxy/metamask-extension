@@ -1,5 +1,6 @@
 const { strict: assert } = require('assert');
 const { withFixtures } = require('../helpers');
+const FixtureBuilder = require('../fixture-builder');
 const { TEST_SNAPS_WEBSITE_URL } = require('./enums');
 
 describe('Test Snap bip-32', function () {
@@ -14,7 +15,9 @@ describe('Test Snap bip-32', function () {
     };
     await withFixtures(
       {
-        fixtures: 'imported-account',
+        fixtures: new FixtureBuilder()
+          .withPermissionControllerConnectedToSnapDapp()
+          .build(),
         ganacheOptions,
         title: this.test.title,
       },
@@ -35,25 +38,8 @@ describe('Test Snap bip-32', function () {
         await driver.fill('#snapId6', 'npm:@metamask/test-snap-bip32');
         await driver.clickElement('#connectBip32');
 
-        // switch to metamask extension and click connect
-        await driver.waitUntilXWindowHandles(3, 5000, 10000);
-        let windowHandles = await driver.getAllWindowHandles();
-        await driver.switchToWindowWithTitle(
-          'MetaMask Notification',
-          windowHandles,
-        );
-        await driver.clickElement(
-          {
-            text: 'Connect',
-            tag: 'button',
-          },
-          10000,
-        );
-
-        await driver.delay(1000);
-
         // approve install of snap
-        windowHandles = await driver.getAllWindowHandles();
+        let windowHandles = await driver.getAllWindowHandles();
         await driver.switchToWindowWithTitle(
           'MetaMask Notification',
           windowHandles,
