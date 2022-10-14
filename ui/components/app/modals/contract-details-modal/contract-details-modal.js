@@ -35,7 +35,7 @@ export default function ContractDetailsModal({
   rpcPrefs,
   origin,
   siteImage,
-  contractRequestingSignature,
+  isContractRequestingSignature,
 }) {
   const t = useI18nContext();
   const [copiedTokenAddress, handleCopyTokenAddress] = useCopyToClipboard();
@@ -70,7 +70,7 @@ export default function ContractDetailsModal({
         >
           {t('contractDescription')}
         </Typography>
-        {!contractRequestingSignature && (
+        {!isContractRequestingSignature && (
           <>
             <Typography
               variant={TYPOGRAPHY.H6}
@@ -171,7 +171,7 @@ export default function ContractDetailsModal({
           marginTop={4}
           marginBottom={2}
         >
-          {contractRequestingSignature
+          {isContractRequestingSignature
             ? t('contractRequestingSignature')
             : t('contractRequestingSpendingCap')}
         </Typography>
@@ -320,5 +320,5 @@ ContractDetailsModal.propTypes = {
   /**
    * Whether contract requesting signature flow has started
    */
-  contractRequestingSignature: PropTypes.bool,
+  isContractRequestingSignature: PropTypes.bool,
 };
